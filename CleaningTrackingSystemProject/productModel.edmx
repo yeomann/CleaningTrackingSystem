@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="cleaningDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="basket">
+          <Key>
+            <PropertyRef Name="basketID" />
+          </Key>
+          <Property Name="basketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientID" Type="int" />
+          <Property Name="basketDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="basketDetails">
+          <Key>
+            <PropertyRef Name="basketDetailsID" />
+          </Key>
+          <Property Name="basketDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="basketProductName" Type="nvarchar" MaxLength="50" />
+          <Property Name="basketProductPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="basketID" Type="int" />
+          <Property Name="basketProdcutStatus" Type="varchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="catID" />
+          </Key>
+          <Property Name="catID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="telephone" Type="nvarchar" MaxLength="11" />
+          <Property Name="address" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productName" Type="varchar" MaxLength="50" />
+          <Property Name="productPrince" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="clientID" Type="int" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="serviceID" />
+          </Key>
+          <Property Name="serviceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceName" Type="varchar" MaxLength="50" />
+          <Property Name="catID" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK_basket_clients">
+          <End Role="clients" Type="Self.clients" Multiplicity="0..1" />
+          <End Role="basket" Type="Self.basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="basket">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_basketDetails_basket">
+          <End Role="basket" Type="Self.basket" Multiplicity="0..1" />
+          <End Role="basketDetails" Type="Self.basketDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="basket">
+              <PropertyRef Name="basketID" />
+            </Principal>
+            <Dependent Role="basketDetails">
+              <PropertyRef Name="basketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_clients">
+          <End Role="clients" Type="Self.clients" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_categories">
+          <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="catID" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="catID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="cleaningDBModelStoreContainer">
+          <EntitySet Name="basket" EntityType="Self.basket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="basketDetails" EntityType="Self.basketDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="clients" EntityType="Self.clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="services" EntityType="Self.services" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_basket_clients" Association="Self.FK_basket_clients">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="basket" EntitySet="basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_basketDetails_basket" Association="Self.FK_basketDetails_basket">
+            <End Role="basket" EntitySet="basket" />
+            <End Role="basketDetails" EntitySet="basketDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_clients" Association="Self.FK_Products_clients">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_categories" Association="Self.FK_services_categories">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cleaningDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="cleaningDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="cleaningDBModel.category" />
+          <EntitySet Name="services" EntityType="cleaningDBModel.service" />
+          <AssociationSet Name="FK_services_categories" Association="cleaningDBModel.FK_services_categories">
+            <End Role="category" EntitySet="categories" />
+            <End Role="service" EntitySet="services" />
+          </AssociationSet>
+          <EntitySet Name="clients" EntityType="cleaningDBModel.client" />
+          <EntitySet Name="Products" EntityType="cleaningDBModel.Product" />
+          <AssociationSet Name="FK_Products_clients" Association="cleaningDBModel.FK_Products_clients">
+            <End Role="client" EntitySet="clients" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="baskets" EntityType="cleaningDBModel.basket" />
+          <AssociationSet Name="FK_basket_clients" Association="cleaningDBModel.FK_basket_clients">
+            <End Role="client" EntitySet="clients" />
+            <End Role="basket" EntitySet="baskets" />
+          </AssociationSet>
+          <EntitySet Name="basketDetails" EntityType="cleaningDBModel.basketDetail" />
+          <AssociationSet Name="FK_basketDetails_basket" Association="cleaningDBModel.FK_basketDetails_basket">
+            <End Role="basket" EntitySet="baskets" />
+            <End Role="basketDetail" EntitySet="basketDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="catID" />
+          </Key>
+          <Property Name="catID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="services" Relationship="cleaningDBModel.FK_services_categories" FromRole="category" ToRole="service" />
+        </EntityType>
+        <EntityType Name="service">
+          <Key>
+            <PropertyRef Name="serviceID" />
+          </Key>
+          <Property Name="serviceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="catID" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="category" Relationship="cleaningDBModel.FK_services_categories" FromRole="service" ToRole="category" />
+        </EntityType>
+        <Association Name="FK_services_categories">
+          <End Type="cleaningDBModel.category" Role="category" Multiplicity="0..1" />
+          <End Type="cleaningDBModel.service" Role="service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="catID" />
+            </Principal>
+            <Dependent Role="service">
+              <PropertyRef Name="catID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telephone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Products" Relationship="cleaningDBModel.FK_Products_clients" FromRole="client" ToRole="Product" />
+          <NavigationProperty Name="baskets" Relationship="cleaningDBModel.FK_basket_clients" FromRole="client" ToRole="basket" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="productPrince" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="clientID" Type="Int32" />
+          <NavigationProperty Name="client" Relationship="cleaningDBModel.FK_Products_clients" FromRole="Product" ToRole="client" />
+        </EntityType>
+        <Association Name="FK_Products_clients">
+          <End Type="cleaningDBModel.client" Role="client" Multiplicity="0..1" />
+          <End Type="cleaningDBModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="basket">
+          <Key>
+            <PropertyRef Name="basketID" />
+          </Key>
+          <Property Name="basketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientID" Type="Int32" />
+          <Property Name="basketDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="client" Relationship="cleaningDBModel.FK_basket_clients" FromRole="basket" ToRole="client" />
+          <NavigationProperty Name="basketDetails" Relationship="cleaningDBModel.FK_basketDetails_basket" FromRole="basket" ToRole="basketDetail" />
+        </EntityType>
+        <Association Name="FK_basket_clients">
+          <End Type="cleaningDBModel.client" Role="client" Multiplicity="0..1" />
+          <End Type="cleaningDBModel.basket" Role="basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="basket">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="basketDetail">
+          <Key>
+            <PropertyRef Name="basketDetailsID" />
+          </Key>
+          <Property Name="basketDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="basketProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="basketProductPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="basketID" Type="Int32" />
+          <Property Name="basketProdcutStatus" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="basket" Relationship="cleaningDBModel.FK_basketDetails_basket" FromRole="basketDetail" ToRole="basket" />
+        </EntityType>
+        <Association Name="FK_basketDetails_basket">
+          <End Type="cleaningDBModel.basket" Role="basket" Multiplicity="0..1" />
+          <End Type="cleaningDBModel.basketDetail" Role="basketDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="basket">
+              <PropertyRef Name="basketID" />
+            </Principal>
+            <Dependent Role="basketDetail">
+              <PropertyRef Name="basketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cleaningDBModelStoreContainer" CdmEntityContainer="cleaningDBEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="cleaningDBModel.category">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="catName" ColumnName="catName" />
+                <ScalarProperty Name="catID" ColumnName="catID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="cleaningDBModel.service">
+              <MappingFragment StoreEntitySet="services">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="catID" ColumnName="catID" />
+                <ScalarProperty Name="serviceName" ColumnName="serviceName" />
+                <ScalarProperty Name="serviceID" ColumnName="serviceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clients">
+            <EntityTypeMapping TypeName="cleaningDBModel.client">
+              <MappingFragment StoreEntitySet="clients">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="cleaningDBModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+                <ScalarProperty Name="productPrince" ColumnName="productPrince" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="baskets">
+            <EntityTypeMapping TypeName="cleaningDBModel.basket">
+              <MappingFragment StoreEntitySet="basket">
+                <ScalarProperty Name="basketDateTime" ColumnName="basketDateTime" />
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+                <ScalarProperty Name="basketID" ColumnName="basketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="basketDetails">
+            <EntityTypeMapping TypeName="cleaningDBModel.basketDetail">
+              <MappingFragment StoreEntitySet="basketDetails">
+                <ScalarProperty Name="basketProdcutStatus" ColumnName="basketProdcutStatus" />
+                <ScalarProperty Name="basketID" ColumnName="basketID" />
+                <ScalarProperty Name="basketProductPrice" ColumnName="basketProductPrice" />
+                <ScalarProperty Name="basketProductName" ColumnName="basketProductName" />
+                <ScalarProperty Name="basketDetailsID" ColumnName="basketDetailsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
